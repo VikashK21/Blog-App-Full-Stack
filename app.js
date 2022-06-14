@@ -15,12 +15,6 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(morgan("dev"));
 
-app.get("/", async (req, res) => {
-  res.json({
-    message: "Awesome it works 🐻 and You are standing at Home page."
-  });
-});
-
 app.use("/api", require("./routes/api.routes"));
 
 app.use((req, res, next) => {
