@@ -14,12 +14,15 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(morgan("dev"));
-
-app.use("/api", require("./routes/api.routes"));
-
-app.use((req, res, next) => {
-  next(createError.NotFound());
-});
+if (process.env.NODE_ENV == "production") {
+  app.use(express.static("client/build"));
+  }
+  
+  app.use("/api", require("./routes/api.routes"));
+  
+  app.use((req, res, next) => {
+    next(createError.NotFound());
+  });
 
 app.use((err, req, res, next) => {
   res.status(err.status || 500);
@@ -29,9 +32,6 @@ app.use((err, req, res, next) => {
   });
 });
 
-if (process.env.NODE_ENV == "production") {
-  app.use(express.static("client/build"));
-}
 
 app.listen(PORT, () =>
   console.log({
