@@ -1,6 +1,5 @@
 import axios from "axios";
 import React, { createContext, useReducer } from "react";
-// import config from "../config";
 import {
   fetchBlogFailure,
   fetchBlogRequest,
@@ -19,12 +18,6 @@ export function GlobalProvider({ children }) {
   // Actions
   function getBlogs() {
     dispatch(fetchBlogRequest);
-    // axios.get(config.base_URL + '/api/blogs/', {}, {
-    //   headers: {
-    //     "Content-Type": "application/json",
-    //     "Cookie": document.cookie
-    //   }
-    // })
     axios
       .get("/api/blogs/")
       .then(res => {
@@ -47,7 +40,6 @@ export function GlobalProvider({ children }) {
   }
 
   function Likes_Dislikes(id, reaction) {
-    // axios.post(config.base_URL + `/api/blogs/likes_dislikes/${id}`, reaction)
     axios
       .post(`/api/blogs/likes_dislikes/${id}`, reaction)
       .then(res => {})
@@ -56,8 +48,6 @@ export function GlobalProvider({ children }) {
       });
   }
   function CreateBlog(data) {
-    // axios
-    //   .post(config.base_URL + "/api/blogs/post", data)
     axios
       .post("/api/blogs/post", data)
       .then(res => {
@@ -70,8 +60,6 @@ export function GlobalProvider({ children }) {
   }
   function EditBlog(id) {}
   function Logout() {
-    // axios
-    //   .post(config.base_URL + `/api/users/logout`)
     axios
       .post(`/api/users/logout`)
       .then(res => {
