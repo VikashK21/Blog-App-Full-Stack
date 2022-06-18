@@ -4,6 +4,7 @@ import { TYPES } from "./AppTypes";
 export const initailState = {
   loading: true,
   blogs: [],
+  oneBlog: {},
   comments: [],
   error: ""
 };
@@ -24,6 +25,8 @@ const AppReducer = (state = initailState, action) => {
       return { ...state, loading: false, error: action.payload };
     case TYPES.POSTED_BLOG:
       return { ...state, blogs: [...state.blogs, action.payload] };
+    case TYPES.GET_BY_ID:
+      return { ...state, oneBlog: action.payload };
     default:
       return state;
   }

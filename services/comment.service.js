@@ -4,7 +4,7 @@ const prisma = new PrismaClient();
 class CommentServ {
   async all_comments(blog_id) {
     try {
-      const result = await prisma.comment.findMany({ where: { blog_id } });
+      const result = await prisma.comment.findMany({ where: { blog_id }, include: {commenter: true} });
       return result;
     } catch (err) {
       return err.message;

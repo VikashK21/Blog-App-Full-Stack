@@ -23,6 +23,7 @@ router.delete("/users/delete_acc", authorizationToken, Users.delete_acc);
 
 //Blogs APIs.:
 router.get("/blogs", authorizationToken, Blogs.all_blogs);
+router.get("/blogs/:id", authorizationToken, Blogs.blog_by_id);
 router.post("/blogs/post", authorizationToken, Blogs.new_blog);
 router.patch("/blogs/edit_post/:id", authorizationToken, Blogs.edit_blog);
 router.post(
@@ -36,6 +37,10 @@ router.delete("/blogs/del/:id", authorizationToken, Blogs.del_blog);
 router.get("/blog/comment/:id", authorizationToken, Comment.get_blogs_com);
 //blog_id |
 router.post("/blog/comment/:id", authorizationToken, Comment.post_comment);
-router.post("/blog/comment/reply/:id", authorizationToken, Comment.reply_comment);
+router.post(
+  "/blog/comment/reply/:id",
+  authorizationToken,
+  Comment.reply_comment
+);
 
 module.exports = router;

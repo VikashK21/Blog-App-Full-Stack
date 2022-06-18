@@ -25,3 +25,10 @@ export const postedBlog = blog => {
         payload: blog
     }
 }
+
+export const getById = blog => {
+    return {
+        type: TYPES.GET_BY_ID,
+        payload: blog
+    }
+}

@@ -8,9 +8,10 @@ const CreateBlog = () => {
   const { CreateBlog } = useContext(GlobalContext);
   const navigate = useNavigate();
   function postBlog(e) {
-    e.preventDefault();
+    // e.preventDefault();
     CreateBlog(blog);
-    setBlog({ title: "", post: "", post_url: "" });
+    // setBlog({ title: "", post: "", post_url: "" });
+    navigate("/");
   }
   return (
     <div>
@@ -49,8 +50,7 @@ const CreateBlog = () => {
             />
             <Form.Control
               type=""
-              placeholder="https://"
-              value={blog.post_url}
+              placeholder="Add image link"
               onChange={e =>
                 setBlog(pre => ({
                   ...pre,

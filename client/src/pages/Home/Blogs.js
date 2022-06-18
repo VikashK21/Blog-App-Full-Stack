@@ -3,39 +3,30 @@ import "../../App.css";
 import { GlobalContext } from "../../context/GlobalState";
 import { Card, Container, Button } from "react-bootstrap";
 import Comment from "./Comment";
-import ViewBlogs from "./ViewBlogs";
+// import ViewBlogs from "./ViewBlogs";
+import { useNavigate } from "react-router-dom";
 
 const Blogs = ({ blogs, id }) => {
+  const navigate = useNavigate();
   const [reaction, setReaction] = useState({
     liked: blogs.liked,
     disliked: blogs.disliked,
     totalLikes: blogs.likes,
     totalDislikes: blogs.dislikes
   });
-  const [changeLay, setChangeLay] = useState(0);
-  const { Likes_Dislikes } = useContext(GlobalContext);
+  const { Likes_Dislikes, Blog_By_id } = useContext(GlobalContext);
+
   const day1 = new Date(blogs.created_at);
   const day2 = new Date();
   const difference = Math.abs(day2 - day1);
   const days = difference / (1000 * 3600 * 24);
-  function Details(e) {
-    const opt = e.target.value;
-    if (opt === '1') {
-      setChangeLay("View");
-    } else if (opt === '2') {
-      setChangeLay("Edit");
-    } else if (opt === '3') {
-      setChangeLay("Save");
-    }
-  }
-
   return (
     <Container className="mb-2">
       {/* <div className='flex'> */}
       {/* logger and reactions*/}
 
       {/* Blogs and users */}
-      <ViewBlogs permission={changeLay} id={blogs.id} />
+      {/* <ViewBlogs permission={changeLay} id={blogs.id} /> */}
       <Card style={{ background: "black", border: "2px solid" }}>
         <div className="flex" style={{ borderBottom: "1px grey solid" }}>
           <Card.Title className="flex">
@@ -50,19 +41,16 @@ const Blogs = ({ blogs, id }) => {
               </p>
             </h4>
           </Card.Title>
-          <Card.Title className="m-4">
-            <select
-              className="form-select form-select-sm"
-              aria-label="Default select example"
-              onChange={Details}
+          <Card.Title className="m-4 flex">
+            <Button
+              onClick={() => {navigate(`/${blogs.id}`); Blog_By_id(blogs.id)}}
+              style={{ display: blogs.user_id === id ? "block" : "none" }}
             >
-              <option defaultValue hidden>
-                ...
-              </option>
-              <option value="1">View</option>
-              <option value="2">Edit</option>
-              <option value="3">Save</option>
-            </select>
+              <i className="fa-solid fa-pen-to-square" />
+            </Button>
+            <Button>
+              <i className="fa-solid fa-eye" />
+            </Button>
           </Card.Title>
         </div>
         <Card.Body>
@@ -73,17 +61,12 @@ const Blogs = ({ blogs, id }) => {
             {blogs.post}
           </Card.Text>
           {/* <Card.Img src="https://picsum.photos/200/70" alt="image" /> */}
-          {blogs.post_url.length > 0 &&
+          {blogs.post_url.length > 0 && 
             <Card.Img
-              style={{ height: "40vh" }}
-              src={blogs.post_url[0]}
+              src={JSON.parse(blogs.post_url[0])}
               alt="image"
+              style={{ height: "45vh" }}
             />}
-          {/* <Card.Img
-            style={{ height: "40vh" }}
-            src={blogs.post_url[0]}
-            alt="image"
-          /> */}
         </Card.Body>
       </Card>
 
@@ -144,7 +127,7 @@ const Blogs = ({ blogs, id }) => {
         </Card.Body>
         {/* <Form.Control type="text" placeholder="Comment your exploration..." />
         <Button type="submit">Comment</Button> */}
-        <Comment blog_id={blogs.id} />
+        <Comment blog_id={blogs.id} id={id} />
       </Card>
     </Container>
   );

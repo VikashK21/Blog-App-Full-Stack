@@ -7,24 +7,23 @@ import { Nav, Button, Container, Form } from 'react-bootstrap';
 
 
 const Home = () => {
-    const { blogs, error, Logout, getBlogs } = useContext(GlobalContext);
+    const { blogs, error, Logout, getBlogs, id } = useContext(GlobalContext);
     const navigate = useNavigate();
     const [allblogs, setBlogs] = useState(blogs)
-
-    useEffect(() => {
-        if (!document.cookie) {
-            navigate('/login')
-        }
-    }, [navigate])
 
     useEffect(() => {
         function bringingAll() {
             getBlogs()
             setBlogs(blogs)
         }
-        bringingAll();
+        if (!document.cookie) {
+            navigate('/login')
+        }
+        else {
+            bringingAll();
+        }
         // eslint-disable-next-line 
-    }, [setBlogs, getBlogs])
+    }, [setBlogs, navigate, getBlogs, blogs])
 
 
     return (
@@ -42,7 +41,7 @@ const Home = () => {
             <Container className='App-header' style={{ marginTop: '5vh' }}>
                 {
                     allblogs.length > 0 &&
-                    allblogs.map(ele => (<Blogs key={ele.id} blogs={ele} />))
+                    allblogs.map(ele => (<Blogs key={ele.id} blogs={ele} id={id}/>))
                 }
             </Container>
         </>

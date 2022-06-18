@@ -12,6 +12,15 @@ class blogCtrl {
     }
   };
 
+  blog_by_id = async (req, res) => {
+    try {
+      const result = await Blog_T.blog_by_id(Number(req.params.id))
+      res.json({result})
+    } catch (err) {
+      res.status(400).json(err.message);
+    }
+  };
+
   new_blog = async (req, res) => {
     const schemaValidate = joi.object({
       title: joi.string().max(50).required(),

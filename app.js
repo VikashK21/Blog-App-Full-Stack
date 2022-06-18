@@ -16,13 +16,13 @@ app.use(express.urlencoded({ extended: false }));
 app.use(morgan("dev"));
 if (process.env.NODE_ENV == "production") {
   app.use(express.static("client/build"));
-  }
-  
-  app.use("/api", require("./routes/api.routes"));
-  
-  app.use((req, res, next) => {
-    next(createError.NotFound());
-  });
+}
+
+app.use("/api", require("./routes/api.routes"));
+
+app.use((req, res, next) => {
+  next(createError.NotFound());
+});
 
 app.use((err, req, res, next) => {
   res.status(err.status || 500);
@@ -31,7 +31,6 @@ app.use((err, req, res, next) => {
     message: err.message
   });
 });
-
 
 app.listen(PORT, () =>
   console.log({

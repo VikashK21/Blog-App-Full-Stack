@@ -6,7 +6,17 @@ class blogServ {
     try {
       return await prisma.blog.findMany({
         include: { user: true },
-        orderBy: {id: 'desc'}
+        orderBy: { id: "desc" }
+      });
+    } catch (err) {
+      return err.message;
+    }
+  }
+
+  async blog_by_id(id) {
+    try {
+      return await prisma.blog.findUnique({
+        where: { id }
       });
     } catch (err) {
       return err.message;
@@ -37,6 +47,9 @@ class blogServ {
       });
       if (result) {
         if (user_id === result.user_id) {
+          if (data.hasOwnProperty("post_url")) {
+            data.post_url = JSON.stringify(data.post_url);
+          }
           const result2 = await prisma.blog.update({
             where: { id },
             data
