@@ -30,7 +30,6 @@ function EditBlogs() {
       </Nav>
 
       <Container>
-        {/* <Form.Text>If the written text is not visible, please go back and reclick to the edit button on the Blog.</Form.Text> */}
         <Form onSubmit={postBlog} className="d-grid gap-2">
           <Form.Group controlId="forText">
             <Form.Label>Title</Form.Label>
