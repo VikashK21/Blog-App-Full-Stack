@@ -22,7 +22,7 @@ const Verify = () => {
         if (typeof data[Object.keys(data)[0]] == "object") {
           setMessage("Your account is successfully verified.");
           setTimeout(() => {
-            navigate("/login");
+            navigate("/");
           }, 3000);
         } else {
           setMessage(data[Object.keys(data)[0]]);

@@ -14,12 +14,26 @@ const Blogs = ({ blogs, id }) => {
     totalLikes: blogs.likes,
     totalDislikes: blogs.dislikes
   });
-  const { Likes_Dislikes, Blog_By_id } = useContext(GlobalContext);
+  const { Likes_Dislikes, allComRep, Blog_By_id } = useContext(GlobalContext);
 
   const day1 = new Date(blogs.created_at);
   const day2 = new Date();
   const difference = Math.abs(day2 - day1);
   const days = difference / (1000 * 3600 * 24);
+
+  function pRun(per) {
+    if (per === "blog") {
+      Blog_By_id(blogs.id);
+      setTimeout(() => {
+        navigate(`/${blogs.id}`);
+      }, 2000);
+    } else if (per === "comment") {
+      allComRep(blogs.id);
+      setTimeout(() => {
+        navigate(`/blog/${blogs.title}`);
+      }, 2000);
+    }
+  }
   return (
     <Container className="mb-2">
       {/* <div className='flex'> */}
@@ -43,12 +57,12 @@ const Blogs = ({ blogs, id }) => {
           </Card.Title>
           <Card.Title className="m-4 flex">
             <Button
-              onClick={() => {navigate(`/${blogs.id}`); Blog_By_id(blogs.id)}}
+              onClick={() => pRun("blog")}
               style={{ display: blogs.user_id === id ? "block" : "none" }}
             >
               <i className="fa-solid fa-pen-to-square" />
             </Button>
-            <Button>
+            <Button onClick={() => pRun("comment")}>
               <i className="fa-solid fa-eye" />
             </Button>
           </Card.Title>
@@ -61,7 +75,7 @@ const Blogs = ({ blogs, id }) => {
             {blogs.post}
           </Card.Text>
           {/* <Card.Img src="https://picsum.photos/200/70" alt="image" /> */}
-          {blogs.post_url.length > 0 && 
+          {blogs.post_url.length > 0 &&
             <Card.Img
               src={JSON.parse(blogs.post_url[0])}
               alt="image"
@@ -125,8 +139,6 @@ const Blogs = ({ blogs, id }) => {
             </Button>
           </div>
         </Card.Body>
-        {/* <Form.Control type="text" placeholder="Comment your exploration..." />
-        <Button type="submit">Comment</Button> */}
         <Comment blog_id={blogs.id} id={id} />
       </Card>
     </Container>

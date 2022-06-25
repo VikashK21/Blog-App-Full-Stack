@@ -120,6 +120,7 @@ const Signup = () => {
                 setUser(pre => ({ ...pre, password: e.target.value }));
               }}
             />
+            <Form.Text>Don't worry even the creator also can not access your Password.</Form.Text>
           </Form.Group>
           <Form.Group>
             <Form.Label>Confirm Password*</Form.Label>

@@ -47,7 +47,6 @@ class Users {
             const result = await User_T.login(req.body);
             if (typeof (result) == 'object') {
                 const token = await authenticationToken(result);
-                console.log(token, 'token');
                 return res.status(202).cookie('token', token).json({ result, token });
             }
             res.status(404).json({ result });
@@ -71,7 +70,7 @@ class Users {
             if (typeof (result) == 'object') {
                 return res.status(202).json({ result: 'Please verify your account by an OTP, sent on your email now.' })
             }
-            res.status(404).json(result);
+            res.status(404).json({result});
         } catch (err) {
             res.status(400).json(err.message);
 
@@ -90,7 +89,8 @@ class Users {
         try {
             const result = await User_T.verify_user(req.body);
             if (typeof (result) == 'object') {
-                return res.status(202).json({ result })
+                const token = await authenticationToken(result);
+                return res.status(202).cookie('token', token).json({ result })
             }
             res.status(406).json({ result });
         } catch (err) {

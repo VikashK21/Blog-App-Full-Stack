@@ -32,3 +32,10 @@ export const getById = blog => {
         payload: blog
     }
 }
+
+export const getComments = comments => {
+    return {
+        type: TYPES.COMMENTS,
+        payload: comments
+    }
+}

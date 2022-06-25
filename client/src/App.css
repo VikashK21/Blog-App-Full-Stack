@@ -21,16 +21,18 @@
   gap: 10px;
 }
 
-/* .btn-detail {
-  text-align: right;
-  display: inline-flex;
-  justify-content: right;
-} */
+.flex2 {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 10%;
+}
 
 /* .flex:last-child {
   color: white;
 
 } */
+
 
 .App-header {
   min-height: 100vh;

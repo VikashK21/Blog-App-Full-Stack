@@ -5,7 +5,7 @@ import {
   fetchBlogRequest,
   fetchBlogSuccess,
   getById,
-  postedBlog
+  getComments,
 } from "./AppActions";
 import AppReducer, { initailState } from "./AppReducer";
 
@@ -19,7 +19,8 @@ export function GlobalProvider({ children }) {
   // Actions
   function getBlogs() {
     dispatch(fetchBlogRequest);
-    axios.get("/api/blogs/")
+    axios
+      .get("/api/blogs/")
       .then(res => {
         const id = res.data.id;
         const blogs = res.data.result.map(ele => {
@@ -40,14 +41,16 @@ export function GlobalProvider({ children }) {
   }
 
   function Likes_Dislikes(id, reaction) {
-    axios.post(`/api/blogs/likes_dislikes/${id}`, reaction)
+    axios
+      .post(`/api/blogs/likes_dislikes/${id}`, reaction)
       .then(res => {})
       .catch(err => {
         dispatch(fetchBlogFailure(`${err.message}`));
       });
   }
   function CreateBlog(data) {
-    axios.post("/api/blogs/post", data)
+    axios
+      .post("/api/blogs/post", data)
       .then(res => {
         // const data2 = res.data.result;
         // dispatch(postedBlog(data2));
@@ -56,8 +59,9 @@ export function GlobalProvider({ children }) {
         dispatch(fetchBlogFailure(`${err.message}`));
       });
   }
-  function EditBlog(id, {title, post, post_url}) {
-    axios.patch(`/api/blogs/edit_post/${id}`, {title, post, post_url})
+  function EditBlog(id, { title, post, post_url }) {
+    axios
+      .patch(`/api/blogs/edit_post/${id}`, { title, post, post_url })
       .then(res => {
         // const data2 = res.data.result;
         // dispatch(postedBlog(data2));
@@ -67,7 +71,8 @@ export function GlobalProvider({ children }) {
       });
   }
   function Blog_By_id(id) {
-    axios.get(`/api/blogs/${id}`)
+    axios
+      .get(`/api/blogs/${id}`)
       .then(res => {
         const blogs = res.data.result;
         dispatch(getById(blogs));
@@ -77,7 +82,8 @@ export function GlobalProvider({ children }) {
       });
   }
   function Logout() {
-    axios.post(`/api/users/logout`)
+    axios
+      .post(`/api/users/logout`)
       .then(res => {
         const data = res.data.result;
         dispatch(fetchBlogFailure(data));
@@ -88,9 +94,22 @@ export function GlobalProvider({ children }) {
   }
 
   function Comment(id, comment) {
-    axios.post(`/api/blog/comment/${id}`, { comment_msg: comment })
+    axios
+      .post(`/api/blog/comment/${id}`, { comment_msg: comment })
       .then(res => {
         // const data = res.data.result;
+      })
+      .catch(err => {
+        dispatch(fetchBlogFailure(`${err.message}`));
+      });
+  }
+
+  function allComRep(id) {
+    axios
+      .get(`/api/blog/comment/${id}`)
+      .then(res => {
+        const comments = res.data.result;
+        dispatch(getComments(comments));
       })
       .catch(err => {
         dispatch(fetchBlogFailure(`${err.message}`));
@@ -102,6 +121,7 @@ export function GlobalProvider({ children }) {
       value={{
         blogs: state.blogs,
         oneBlog: state.oneBlog,
+        allComments: state.comments,
         error: state.error,
         id: state.id,
         getBlogs,
@@ -110,7 +130,8 @@ export function GlobalProvider({ children }) {
         EditBlog,
         Logout,
         Comment,
-        Blog_By_id
+        Blog_By_id,
+        allComRep
       }}
     >
       {children}

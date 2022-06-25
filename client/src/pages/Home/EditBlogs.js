@@ -1,18 +1,22 @@
 import React, { useContext, useState } from "react";
 import { Container, Button, Form, Nav } from "react-bootstrap";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { GlobalContext } from "../../context/GlobalState";
 
-const CreateBlog = () => {
-  const [blog, setBlog] = useState({ title: "", post: "", post_url: [] });
-  const { CreateBlog } = useContext(GlobalContext);
+function EditBlogs() {
+  const { EditBlog, oneBlog } = useContext(GlobalContext);
+  const [blog, setBlog] = useState(oneBlog);
   const navigate = useNavigate();
+  const params = useParams();
+  const id = Number(params.id);
   function postBlog(e) {
-    // e.preventDefault();
-    CreateBlog(blog);
-    // setBlog({ title: "", post: "", post_url: "" });
+    if (blog.blog_url[0].length>5) {
+      blog.post_url = blog.blog_url;
+    }
+    EditBlog(id, blog);
     navigate("/");
   }
+
   return (
     <div>
       <Nav
@@ -26,15 +30,16 @@ const CreateBlog = () => {
       </Nav>
 
       <Container>
+        {/* <Form.Text>If the written text is not visible, please go back and reclick to the edit button on the Blog.</Form.Text> */}
         <Form onSubmit={postBlog} className="d-grid gap-2">
           <Form.Group controlId="forText">
             <Form.Label>Title</Form.Label>
             <Form.Control
               type="text"
+              value={blog.title}
               onChange={e =>
                 setBlog(pre => ({ ...pre, title: e.target.value }))}
               placeholder="Blog Title..."
-              value={blog.title}
               required
             />{" "}
             <br />
@@ -43,28 +48,29 @@ const CreateBlog = () => {
             <Form.Label>Blog</Form.Label>
             <Form.Control
               as="textarea"
+              value={blog.post}
               onChange={e => setBlog(pre => ({ ...pre, post: e.target.value }))}
               placeholder="Write a Blog..."
-              value={blog.post}
               required
             />
             <Form.Control
               type=""
-              placeholder="Add image address - https://www.webdevelopersnotes.com/wp-content/uploads/shorten-url-services.png"
+              placeholder="Want to change image address"
+              // value={JSON.parse(blog.post_url[0])}
               onChange={e =>
                 setBlog(pre => ({
                   ...pre,
-                  post_url: e.target.value.split(" ")
+                  blog_url: e.target.value.split(" ")
                 }))}
             />
           </Form.Group>
           <Button variant="success" type="submit" size="lg">
-            Post
+            Edit Blog
           </Button>
         </Form>
       </Container>
     </div>
   );
-};
+}
 
-export default CreateBlog;
+export default EditBlogs;

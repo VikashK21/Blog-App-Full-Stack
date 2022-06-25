@@ -27,6 +27,8 @@ const AppReducer = (state = initailState, action) => {
       return { ...state, blogs: [...state.blogs, action.payload] };
     case TYPES.GET_BY_ID:
       return { ...state, oneBlog: action.payload };
+    case TYPES.COMMENTS:
+      return { ...state, comments: action.payload };
     default:
       return state;
   }

@@ -19,7 +19,6 @@ const Login = () => {
     })
       .then(res => res.json())
       .then(data => {
-        console.log(data);
         if (typeof data.result == "object") {
           setMessage("Successfully Logged In.");
           setTimeout(() => {

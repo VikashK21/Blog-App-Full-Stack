@@ -4,7 +4,11 @@ const prisma = new PrismaClient();
 class CommentServ {
   async all_comments(blog_id) {
     try {
-      const result = await prisma.comment.findMany({ where: { blog_id }, include: {commenter: true} });
+      const result = await prisma.comment.findMany({
+        where: { blog_id },
+        include: { commenter: true },
+        orderBy: { id: "desc" }
+      });
       return result;
     } catch (err) {
       return err.message;
@@ -28,14 +32,14 @@ class CommentServ {
       let replyMessage = {};
       replyMessage[reply.replyer_id] = [reply.reply_msg];
       console.log(result2.reply_msg[0]);
-      if (result2.reply_msg.length > 0 ) {
+      if (result2.reply_msg.length > 0) {
         let laterMessage = JSON.parse(result2.reply_msg[0]);
         console.log(laterMessage.hasOwnProperty(userId));
         if (laterMessage.hasOwnProperty(userId)) {
-          console.log('vikash');
-          (laterMessage[userId]).push(reply.reply_msg)
+          console.log("vikash");
+          laterMessage[userId].push(reply.reply_msg);
         }
-        replyMessage = {...replyMessage, ...laterMessage}
+        replyMessage = { ...replyMessage, ...laterMessage };
       }
       const result = await prisma.comment.update({
         where: { id },
