@@ -3,16 +3,17 @@ import { Container, Button, Form, Nav } from "react-bootstrap";
 import { useNavigate, useParams } from "react-router-dom";
 import { GlobalContext } from "../../context/GlobalState";
 
-function EditBlogs(e) {
-  e.preventDefault();
+function EditBlogs() {
   const { EditBlog, oneBlog } = useContext(GlobalContext);
   const [blog, setBlog] = useState(oneBlog);
   const navigate = useNavigate();
   const params = useParams();
   const id = Number(params.id);
-  function postBlog(e) {
-    if (blog.blog_url[0].length>5) {
+  function postBlog() {
+    if (blog.hasOwnProperty("blog_url") && blog.blog_url[0].length > 5) {
       blog.post_url = blog.blog_url;
+    } else {
+      blog.post_url = JSON.parse(oneBlog.post_url[0]);
     }
     EditBlog(id, blog);
     navigate("/");
@@ -31,6 +32,7 @@ function EditBlogs(e) {
       </Nav>
 
       <Container>
+        {/* <Form.Text>If the written text is not visible, please go back and reclick to the edit button on the Blog.</Form.Text> */}
         <Form onSubmit={postBlog} className="d-grid gap-2">
           <Form.Group controlId="forText">
             <Form.Label>Title</Form.Label>
