@@ -3,7 +3,8 @@ import { Container, Button, Form, Nav } from "react-bootstrap";
 import { useNavigate, useParams } from "react-router-dom";
 import { GlobalContext } from "../../context/GlobalState";
 
-function EditBlogs() {
+function EditBlogs(e) {
+  e.preventDefault();
   const { EditBlog, oneBlog } = useContext(GlobalContext);
   const [blog, setBlog] = useState(oneBlog);
   const navigate = useNavigate();
